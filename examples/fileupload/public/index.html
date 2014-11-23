@@ -21,10 +21,16 @@
         // `client.send` is a helper function that creates a stream with the 
         // given metadata, and then chunks up and streams the data.
         var stream = client.send(file, {name: file.name, size: file.size});
-        
+        var start;
+        var finish;
+        var time;
         // Print progress
         var tx = 0;
         stream.on('data', function(data){
+          if (!start) start = new Date().getTime();
+          finish = new Date().getTime();
+          time = finish - start;
+          console.log(time);
           $('#progress').text(Math.round(tx+=data.rx*100) + '% complete');
         });
       }); 
